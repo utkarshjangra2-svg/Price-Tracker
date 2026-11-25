@@ -1,0 +1,238 @@
+/* ─── RestaurantDetail Page Styles ──────────────────────────── */
+
+/* Loading */
+.rd-loading-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  gap: 16px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.rd-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(234, 88, 12, 0.2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: rd-spin 0.75s linear infinite;
+}
+
+@keyframes rd-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ─── Hero ──────────────────────────────────────────────────── */
+.rd-hero {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 28px 0 32px;
+  animation: df-card-in 0.35s ease both;
+  box-shadow: var(--shadow-sm);
+}
+
+.rd-hero-img {
+  width: 280px;
+  min-height: 200px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.rd-hero-info {
+  padding: 28px 28px 28px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.rd-hero-name {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.rd-hero-location {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.rd-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  align-items: center;
+}
+
+.rd-open-zomato-btn {
+  display: inline-block;
+  margin-top: 8px;
+  background: #e23744;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 11px 22px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition: all 0.2s;
+  width: fit-content;
+}
+
+.rd-open-zomato-btn:hover {
+  background: #c62c3a;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(226, 55, 68, 0.35);
+}
+
+/* ─── Menu Section ──────────────────────────────────────────── */
+.rd-menu-section {
+  padding-bottom: 60px;
+}
+
+/* ─── Menu Grid ─────────────────────────────────────────────── */
+.rd-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 8px;
+}
+
+/* ─── Menu Card ─────────────────────────────────────────────── */
+.rd-menu-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.22s ease;
+  animation: df-card-in 0.35s ease both;
+  box-shadow: var(--shadow-sm);
+}
+
+.rd-menu-card:hover {
+  border-color: rgba(226, 55, 68, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(226, 55, 68, 0.1);
+}
+
+.rd-menu-card-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+
+.rd-menu-card-img-placeholder {
+  background: linear-gradient(135deg, rgba(226, 55, 68, 0.08), rgba(210, 46, 63, 0.05));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.rd-menu-card-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.rd-menu-card-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rd-menu-card-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.rd-price-current {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #22c55e;
+}
+
+.rd-price-original {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.rd-order-btn {
+  display: block;
+  margin-top: auto;
+  background: linear-gradient(135deg, #e23744, #c62c3a);
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 9px;
+  padding: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  transition: all 0.2s;
+}
+
+.rd-order-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(226, 55, 68, 0.35);
+}
+
+/* ─── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .rd-hero {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .rd-hero-img {
+    width: 100%;
+    height: 200px;
+  }
+
+  .rd-hero-info {
+    padding: 20px;
+  }
+
+  .rd-hero-name {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .rd-menu-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .rd-menu-grid {
+    grid-template-columns: 1fr;
+  }
+}

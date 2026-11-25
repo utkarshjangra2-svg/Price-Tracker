@@ -1,0 +1,171 @@
+.platform-auth-banner {
+  background: rgba(17, 24, 39, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px 18px;
+  margin: 12px 0 20px 0;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.platform-auth-banner.needs-auth {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: linear-gradient(135deg, rgba(31, 41, 55, 0.9), rgba(17, 24, 39, 0.95));
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.1);
+}
+
+.platform-auth-banner.all-connected {
+  border-color: rgba(16, 185, 129, 0.35);
+  background: linear-gradient(135deg, rgba(6, 78, 59, 0.4), rgba(17, 24, 39, 0.8));
+}
+
+.pab-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pab-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pab-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+  animation: pab-pulse 1.8s infinite;
+}
+
+.all-connected .pab-pulse-dot {
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+@keyframes pab-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.pab-title {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #e5e7eb;
+}
+
+.pab-providers {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pab-provider-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.82rem;
+}
+
+.pab-provider-chip.connected {
+  border-color: rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.pab-badge {
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.pab-badge.zomato {
+  background: #e23744;
+  color: #fff;
+}
+
+.pab-badge.swiggy {
+  background: #fc8019;
+  color: #fff;
+}
+
+.pab-status-text {
+  font-weight: 500;
+  color: #34d399;
+}
+
+.pab-auth-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pab-auth-btn:hover:not(:disabled) {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+.pab-auth-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pab-auth-btn.zomato-btn {
+  background: linear-gradient(135deg, #e23744, #cb202d);
+}
+
+.pab-auth-btn.swiggy-btn {
+  background: linear-gradient(135deg, #fc8019, #e06d10);
+}
+
+.pab-reset-btn {
+  background: transparent;
+  border: none;
+  color: #9ca3af;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.pab-reset-btn:hover {
+  color: #f87171;
+}
+
+.pab-msg {
+  margin: 8px 0 0 0;
+  font-size: 0.82rem;
+  color: #cbd5e1;
+}
+
+.pab-direct-link {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  color: #93c5fd;
+}
+
+.pab-link {
+  color: #60a5fa;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}

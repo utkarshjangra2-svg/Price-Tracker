@@ -1,0 +1,2 @@
+"import React, { useCallback, useEffect, useMemo, useState } from \"react\";\nimport { Routes, Route, useNavigate } from \"react-router-dom\";\nimport { FaMoon, FaSun, FaHome, FaSearch, FaTags, FaStar, FaShoppingCart, FaUser, FaBolt, FaShieldAlt, FaHeart, 
+<truncated 14532 bytes>

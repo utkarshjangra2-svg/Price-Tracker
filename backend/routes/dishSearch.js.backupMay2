@@ -1,0 +1,1 @@
+"      .filter((deal) => deal.isOrderableNow && (deal.orderUrl || (deal.res_id && deal.catalogueId)) && !/\\/search\\?query=/.test(deal.orderUrl || \"\"));"

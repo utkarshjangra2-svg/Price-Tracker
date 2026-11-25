@@ -1,0 +1,566 @@
+/* ============================================================
+   LocationPicker — Premium glassmorphic location tool
+   ============================================================ */
+
+/* ── Pill (header button) ── */
+.loc-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 13px 6px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(234, 88, 12, 0.28);
+  background: rgba(234, 88, 12, 0.08);
+  color: var(--text, #e2e8f0);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  white-space: nowrap;
+  max-width: 180px;
+}
+
+.loc-pill:hover {
+  background: rgba(234, 88, 12, 0.18);
+  border-color: rgba(234, 88, 12, 0.5);
+  transform: translateY(-1px);
+}
+
+.loc-pill:active {
+  transform: translateY(0);
+}
+
+.loc-pill-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 110px;
+}
+
+.loc-pill-chevron {
+  opacity: 0.6;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.loc-pill:hover .loc-pill-chevron {
+  transform: translateY(1px);
+}
+
+/* ── Status dot ── */
+.loc-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+  transition: background 0.3s;
+}
+
+.loc-dot.detecting {
+  background: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
+  animation: loc-blink 1s ease-in-out infinite;
+}
+
+.loc-dot.fallback {
+  background: #ef4444;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.5);
+}
+
+.loc-dot.manual {
+  background: var(--primary);
+  box-shadow: 0 0 6px rgba(234, 88, 12, 0.6);
+}
+
+/* Red pulsing dot — GPS denied / timed out / unavailable */
+.loc-dot.denied {
+  background: #ef4444;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.7);
+  animation: loc-blink 1.4s ease-in-out infinite;
+}
+
+@keyframes loc-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* ── Overlay ── */
+.loc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(5, 5, 15, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: clamp(60px, 8vh, 100px);
+  animation: loc-fade-in 0.18s ease;
+}
+
+@keyframes loc-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── Modal ── */
+.loc-modal {
+  width: min(520px, calc(100vw - 28px));
+  max-height: 82vh;
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(18, 18, 32, 0.97), rgba(12, 12, 24, 0.98));
+  border: 1px solid rgba(234, 88, 12, 0.22);
+  box-shadow:
+    0 32px 72px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: loc-slide-up 0.22s cubic-bezier(0.34, 1.12, 0.64, 1);
+}
+
+@keyframes loc-slide-up {
+  from { opacity: 0; transform: translateY(18px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Modal header ── */
+.loc-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.loc-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--primary);
+}
+
+.loc-modal-title h2 {
+  font-size: 1rem;
+  font-weight: 650;
+  color: #e2e8f0;
+  margin: 0;
+}
+
+.loc-close-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.loc-close-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+/* ── Current location strip ── */
+.loc-current-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(234, 88, 12, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.loc-current-text {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+/* ── Search input ── */
+.loc-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px 10px;
+  position: relative;
+}
+
+.loc-search-icon {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.loc-search-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(234, 88, 12, 0.22);
+  border-radius: 10px;
+  color: #e2e8f0;
+  font-size: 0.88rem;
+  padding: 10px 36px 10px 14px;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  width: 100%;
+}
+
+.loc-search-input:focus {
+  border-color: rgba(234, 88, 12, 0.55);
+  background: rgba(234, 88, 12, 0.08);
+}
+
+.loc-search-input::placeholder {
+  color: #4b5563;
+}
+
+.loc-input-clear {
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #4b5563;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 4px 6px;
+  line-height: 1;
+  border-radius: 4px;
+  transition: color 0.15s;
+  margin-top: 7px;
+}
+
+.loc-input-clear:hover { color: #94a3b8; }
+
+/* ── Tabs ── */
+.loc-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.loc-tab {
+  padding: 7px 14px;
+  font-size: 0.8rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.15s, border-color 0.15s;
+  position: relative;
+  bottom: -1px;
+}
+
+.loc-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  font-weight: 600;
+}
+
+.loc-tab-badge {
+  background: rgba(234, 88, 12, 0.2);
+  color: var(--primary);
+  border-radius: 999px;
+  padding: 1px 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+/* ── Modal scrollable body ── */
+.loc-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0 16px;
+  position: relative;
+}
+
+.loc-modal-body::-webkit-scrollbar { width: 4px; }
+.loc-modal-body::-webkit-scrollbar-track { background: transparent; }
+.loc-modal-body::-webkit-scrollbar-thumb { background: rgba(234, 88, 12, 0.25); border-radius: 4px; }
+
+/* ── Suggestions ── */
+.loc-suggestions {
+  margin: 4px 12px 4px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.loc-suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 14px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: #e2e8f0;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.loc-suggestion-item:last-child { border-bottom: none; }
+
+.loc-suggestion-item:hover {
+  background: rgba(234, 88, 12, 0.12);
+}
+
+.loc-suggestion-pin { color: var(--primary); flex-shrink: 0; }
+
+.loc-suggestion-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.loc-suggestion-main {
+  font-size: 0.87rem;
+  font-weight: 500;
+}
+
+.loc-suggestion-sub {
+  font-size: 0.73rem;
+  color: #64748b;
+}
+
+/* ── Device GPS button ── */
+.loc-device-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 12px 6px;
+  width: calc(100% - 24px);
+  padding: 11px 16px;
+  border-radius: 11px;
+  border: 1px dashed rgba(234, 88, 12, 0.3);
+  background: rgba(234, 88, 12, 0.06);
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  text-align: left;
+}
+
+.loc-device-btn:hover {
+  background: rgba(234, 88, 12, 0.14);
+  border-color: rgba(234, 88, 12, 0.5);
+}
+
+/* ── Section label ── */
+.loc-section-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #4b5563;
+  font-weight: 700;
+  padding: 12px 20px 6px;
+  margin: 0;
+}
+
+/* ── Quick cities grid ── */
+.loc-quick-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 4px 12px 6px;
+}
+
+.loc-quick-chip {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: #94a3b8;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.loc-quick-chip:hover {
+  background: rgba(234, 88, 12, 0.15);
+  border-color: rgba(234, 88, 12, 0.4);
+  color: #a89ffc;
+}
+
+.loc-quick-chip.active {
+  background: rgba(234, 88, 12, 0.2);
+  border-color: rgba(234, 88, 12, 0.55);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ── Saved addresses list ── */
+.loc-saved-list {
+  padding: 4px 12px;
+}
+
+.loc-saved-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+  color: #e2e8f0;
+  cursor: pointer;
+  text-align: left;
+  margin-bottom: 7px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.loc-saved-item:hover {
+  background: rgba(234, 88, 12, 0.1);
+  border-color: rgba(234, 88, 12, 0.3);
+}
+
+.loc-saved-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(234, 88, 12, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loc-saved-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.loc-saved-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #c9d5e8;
+}
+
+.loc-saved-address {
+  font-size: 0.75rem;
+  color: #64748b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.loc-saved-chevron { color: #334155; flex-shrink: 0; }
+
+/* ── Loader row ── */
+.loc-loader-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  color: #64748b;
+  font-size: 0.83rem;
+}
+
+/* ── Spinner ── */
+.loc-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(234, 88, 12, 0.2);
+  border-top-color: var(--primary);
+  animation: loc-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.loc-spinner.large {
+  width: 22px;
+  height: 22px;
+  border-width: 3px;
+}
+
+@keyframes loc-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Status message ── */
+.loc-status-msg {
+  margin: 8px 12px 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  color: #86efac;
+}
+
+/* Error banner — shown when GPS is denied / timed out */
+.loc-error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 0 2px;
+  padding: 10px 20px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  background: rgba(245, 158, 11, 0.08);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.18);
+  color: #fcd34d;
+}
+
+/* ── Setting overlay ── */
+.loc-setting-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: rgba(5, 5, 15, 0.7);
+  backdrop-filter: blur(4px);
+  border-radius: 0 0 20px 20px;
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+/* ── Empty msg ── */
+.loc-empty-msg {
+  padding: 20px;
+  color: #4b5563;
+  font-size: 0.83rem;
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .loc-pill-label { max-width: 75px; }
+  .loc-modal { border-radius: 16px 16px 0 0; }
+  .loc-overlay {
+    align-items: flex-end;
+    padding-top: 0;
+  }
+}
